@@ -5,14 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <style>
-        input{
-            padding: 10px;
-            outline: none;
-        }
-    </style>
     <h4>Books:</h4>
     <form action="/save" method="post" enctype="multipart/form-data">
         <input type="text" name="maSanPham" id="maSanPham" placeholder="Nhập mã sản phẩm" />
@@ -41,7 +36,7 @@
                     <td><%= data[i].maSanPham %></td>
                     <td><%= data[i].tenSanPham %></td>
                     <td><%= data[i].soLuong %></td>
-                    <td><img src="<%= data[i].image %>" alt="avt_<%= data[i].maSanPham %>" width="64" height="64" /></td>
+                    <td><img src="<%= data[i].image %>" alt="avt_<%= data[i].maSanPham %>" width="48" height="48" /></td>
                     <td>
                         <input type="checkbox" name="<%= data[i].maSanPham %>" id="<%= data[i].maSanPham %>" />
                     </td>

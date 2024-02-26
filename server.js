@@ -31,9 +31,10 @@ function checkFileType(file, cb) {
     if(extname && mimetype) {
         return cb(null, true);
     }
-    return cb('Error: Image Only Pls!');
+    return cb('Error: Pls upload images /jpeg|jpg|png|gif/ only!');
 }
 // Cấu hình AWS
+process.env.AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE = '1';// Kể từ 2023 v2 đã deprecated, ta chọn sử dụng aws-sdk javascript v2 thay vì v3
 AWS.config.update({
     region: process.env.REGION,
     accessKeyId: process.env.ACCESS_KEY_ID,
@@ -41,7 +42,7 @@ AWS.config.update({
 });
 const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = 'Products';
+const tableName = process.env.DYNAMODB_TABLE_NAME;
 
 // Routers
 app.get('/', async (req, res) =>{
@@ -77,7 +78,6 @@ app.post('/save', upload.single('image'), (req, res) =>{// Middleware uploadsing
                 return res.send('Internal server error!');
             } else {// Sau khi img upload -> sẽ gán URL cho image
                 const imageURL = data.Location;
-                console.log('imageURL=', imageURL);
                 const paramsDynamoDb = {
                     TableName: tableName,
                     Item: {
@@ -99,7 +99,7 @@ app.post('/save', upload.single('image'), (req, res) =>{// Middleware uploadsing
 
 app.post('/delete', upload.fields([]), (req, res) => {
     const listCheckboxSelected = Object.keys(req.body);// Lấy ra tất cả checkboxes
-    //req.body trả về 1 object chứa các cặp key & value định dạng:
+    // req.body trả về 1 object chứa các cặp key & value định dạng:
     // '123456': 'on',
     // '123458': 'on',
     //listCheckboxSelected trả về 1 array: [ '123456', '123458', '96707133' ]
@@ -111,7 +111,7 @@ app.post('/delete', upload.fields([]), (req, res) => {
             const params = {
                 TableName: tableName,
                 Key: {
-                    'maSanPham': listCheckboxSelected[length]
+                    'maSanPham': Number(listCheckboxSelected[length])
                 }
             }
             dynamodb.delete(params, (err, data) => {
