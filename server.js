@@ -12,10 +12,10 @@ app.get('/', (req, res) =>{
     return res.render('index', { data: data });// Dùng biến response để render trang `index.ejs` đồng thời truyền biến `data`
 });
 
-app.post('/save', upload.fields([]), (req, res) =>{
-    const maSanPham = Number(req.body.maSanPham);// Thấy ra các tham số từ body của form
-    const tenSanPham = req.body.tenSanPham;
-    const soLuong  = Number(req.body.soLuong);
+app.post('/save', upload.fields([]), (req, res) =>{// Thêm middleware multerupload để chỉnh định rằng chấp nhận xử lý mọi field dữ liệu gởi từ form.
+    const maSanPham = Number(req.body.maSanPham);// Lấy ra các tham số từ body của form
+    const tenSanPham = req.body.tenSanPham;// Lấy ra các tham số từ body của form
+    const soLuong  = Number(req.body.soLuong);// Lấy ra các tham số từ body của form
 
     const params = {
         "maSanPham": maSanPham,
@@ -50,6 +50,6 @@ app.post('/delete', upload.fields([]), (req, res) => {
     onDeleteItem(listCheckboxSelected.length - 1);// Gọi hàm đệ quy xóa
 });
 
-app.listen(3000, () =>{
+app.listen(3000, () =>{// Chạy app ở port 3000
     console.log('Running in port 3000..');
 });
