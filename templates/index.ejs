@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        input{
+            padding: 10px;
+            outline: none;
+        }
+    </style>
+    <h4>Books:</h4>
+    <form action="/save" method="post" enctype="multipart/form-data">
+        <input type="text" name="maSanPham" id="maSanPham" placeholder="Nhập mã sản phẩm" />
+        <br />
+        <input type="text" name="tenSanPham" id="tenSanPham" placeholder="Nhập tên sản phẩm" />
+        <br />
+        <input type="text" name="soLuong" id="soLuong" placeholder="Nhập số lượng" />
+        <br />
+        <input type="submit" value="Add" />
+    </form>
+
+    <br />
+
+    <form action="/delete" method="post" enctype="multipart/form-data">
+        <table border="true">
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Chọn</th>
+            </tr>
+            <% for(let i = 0; i< data.length; i++){ %>
+                <tr>
+                    <td><%= data[i].maSanPham %></td>
+                    <td><%= data[i].tenSanPham %></td>
+                    <td><%= data[i].soLuong %></td>
+                    <td>
+                        <input type="checkbox" name="<%= data[i].maSanPham %>" id="<%= data[i].maSanPham %>" />
+                    </td>
+                </tr>
+            <% } %>
+        </table>
+        <input type="submit" value="Xoá chọn">
+    </form>
+</body>
+</html>
