@@ -42,6 +42,8 @@ AWS.config.update({
 });
 const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+const bucketName = process.env.S3_BUCKET_NAME;
 const tableName = process.env.DYNAMODB_TABLE_NAME;
 
 // Routers
@@ -64,10 +66,10 @@ app.post('/save', upload.single('image'), (req, res) =>{// Middleware uploadsing
     
         const image = req.file.originalname.split('.');
         const fileType = image[image.length-1];
-        const filePath = `${maSanPham + Date.now().toString()}.${fileType}`;// Custom name của image theo pattern
+        const filePath = `${maSanPham}_${Date.now().toString()}.${fileType}`;// Custom name của image theo pattern
 
         const paramsS3 = {
-            Bucket: process.env.S3_BUCKET_NAME,
+            Bucket: bucketName,
             Key: filePath,
             Body: req.file.buffer,
             ContentType: req.file.mimetype,
